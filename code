@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include<vector>
+using namespace std;
+struct input {
+	string name;
+	int pass;
+};
+vector<input>sub;
+
+class user {
+	
+public:
+	string name;
+	int password;
+	user(string enter_name, int enter_password);
+};
+
+user::user(string enter_name, int enter_password) {
+	name = enter_name;
+	password = enter_password;
+}
+
+void input_file() {
+	ifstream inF;
+	inF.open("C:/Users/CCLaptop/Desktop/SinhVien.txt");
+	int i = -1;
+	string nhap;
+	while (inF.eof() != true) {
+		sub.push_back(input());
+		if (i == -1) {
+			getline (inF,nhap);
+			i++;
+		}
+		else {
+			i++;
+			getline(inF, sub[i].name, '-');
+			inF >> sub[i].pass;
+		}
+	}
+	inF.close();
+}
+
+void checking() {
+	input_file();
+	string a; int b; int p = 0;
+	while (p == 0) {
+		cout << "enter user name : "; cin >> a;
+		cout << "enter password : "; cin >> b;
+		user enter(a, b);
+		for (int i = 0; i < sub.size(); i++) {
+			(sub[i].name).erase(std::remove((sub[i].name).begin(), (sub[i].name).end(), '\n'), (sub[i].name).end());
+			if (enter.name == sub[i].name && enter.password == sub[i].pass) {
+				cout << "success";
+				p++;
+			}
+		}
+		if (p == 0) {
+			cout << "your name or password is incorrect, try again" << "\n";
+		}
+	}
+}
+
+int main() {
+	checking();
+}
